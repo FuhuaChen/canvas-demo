@@ -1,6 +1,6 @@
 var canvas = document.getElementById('canvas')
 var context = canvas.getContext('2d')
-
+var lineWidth = 5
 //设置canvas宽高
 autoSetCancasSize(canvas)
 
@@ -11,11 +11,58 @@ listenUser(canvas)
 var eraserEnabled = false
 eraser.onclick = function () {
     eraserEnabled = true
-    actions.className = 'actions x'
+    eraser.classList.add('active')
+    brush.classList.remove('active')
 }
 brush.onclick = function () {
     eraserEnabled = false
-    actions.className = 'actions'
+    brush.classList.add('active')
+    eraser.classList.remove('active')
+}
+
+//画笔颜色
+black.onclick = function () {
+    context.fillStyle = 'black'
+    context.strokeStyle = 'black'
+    black.classList.add('active')
+    red.classList.remove('active')
+    green.classList.remove('active')
+    blue.classList.remove('active')
+}
+red.onclick = function () {
+    context.fillStyle = 'red'
+    context.strokeStyle = 'red'
+    red.classList.add('active')
+    black.classList.remove('active')
+    green.classList.remove('active')
+    blue.classList.remove('active')
+}
+green.onclick = function () {
+    context.fillStyle = 'green'
+    context.strokeStyle = 'green'
+    green.classList.add('active')
+    black.classList.remove('active')
+    red.classList.remove('active')
+    blue.classList.remove('active')
+}
+blue.onclick = function () {
+    context.fillStyle = 'blue'
+    context.strokeStyle = 'blue'
+    blue.classList.add('active')
+    black.classList.remove('active')
+    red.classList.remove('active')
+    green.classList.remove('active')
+}
+//画笔大小
+thin.onclick = function () {
+    lineWidth = 5
+    thin.classList.add('active')
+    thick.classList.remove('active')
+}
+thick.onclick = function () {
+    lineWidth = 8
+    thick.classList.add('active')
+    thin.classList.remove('active')
 }
 
 
@@ -23,7 +70,7 @@ brush.onclick = function () {
 var drawLine = function (x1, y1, x2, y2) {
     context.beginPath()
     context.moveTo(x1, y1)
-    context.lineWidth = 5
+    context.lineWidth = lineWidth
     context.lineTo(x2, y2)
     context.stroke()
     context.closePath()
@@ -53,7 +100,7 @@ function listenUser(canvas) {
             var x = xxx.touches[0].clientX
             var y = xxx.touches[0].clientY
             using = true
-            drawPoint(x,y,3)
+            drawPoint(x,y,lineWidth/2)
             if (eraserEnabled) {
                 context.clearRect(x - 10, y - 10, 20, 20)
             } else {
@@ -84,6 +131,7 @@ function listenUser(canvas) {
             var x = xxx.clientX
             var y = xxx.clientY
             using = true
+            drawPoint(x,y,lineWidth/2)
             if (eraserEnabled) {
                 context.clearRect(x - 10, y - 10, 20, 20)
             } else {
